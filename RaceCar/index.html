@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏁 HTML5 Canvas 赛车游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🏎️ 终极赛车挑战</h1>
+            <div class="game-info">
+                <div class="info-panel">
+                    <div class="stat">
+                        <span class="label">等级:</span>
+                        <span id="level">1</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">经验:</span>
+                        <span id="exp">0</span>/<span id="maxExp">100</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">生命:</span>
+                        <span id="health">100</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">分数:</span>
+                        <span id="score">0</span>
+                    </div>
+                </div>
+                <div class="active-effects">
+                    <div id="activeEffects"></div>
+                </div>
+            </div>
+        </div>
+        
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        
+        <div class="game-controls">
+            <div class="controls-info">
+                <p><strong>操作说明:</strong></p>
+                <p>⬅️➡️ 方向键移动 | ⬆️ 加速 | ⬇️ 减速 | 空格键 使用道具</p>
+            </div>
+            <div class="game-buttons">
+                <button id="startBtn">开始游戏</button>
+                <button id="pauseBtn">暂停</button>
+                <button id="restartBtn">重新开始</button>
+            </div>
+        </div>
+        
+        <div class="upgrades-panel">
+            <h3>🎯 当前升级效果</h3>
+            <ul id="upgradesList">
+                <li>等级 1: 普通加速</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 游戏开始界面 -->
+    <div id="startScreen" class="screen">
+        <div class="screen-content">
+            <h1>🏁 终极赛车挑战</h1>
+            <h2>🏎️ 击败终局BOSS "机械战车王"!</h2>
+            <div class="game-features">
+                <h3>🎮 游戏特色:</h3>
+                <ul>
+                    <li>🏎️ 终局BOSS: 机械战车王等你挑战</li>
+                    <li>🎁 丰富道具: 喷气推进、子弹加农、装甲强化</li>
+                    <li>⭐ 升级系统: 击败敌人获得经验升级</li>
+                    <li>💥 小BOSS: 越野战车、怪力机车</li>
+                </ul>
+            </div>
+            <button onclick="game.startGame()">🚀 开始冒险</button>
+        </div>
+    </div>
+
+    <!-- 游戏结束界面 -->
+    <div id="gameOverScreen" class="screen hidden">
+        <div class="screen-content">
+            <h1 id="gameOverTitle">游戏结束</h1>
+            <div id="gameOverContent">
+                <p>最终分数: <span id="finalScore">0</span></p>
+                <p>最高等级: <span id="finalLevel">1</span></p>
+            </div>
+            <button onclick="game.restart()">🔄 再来一次</button>
+            <button onclick="location.reload()">🏠 返回主页</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html> 

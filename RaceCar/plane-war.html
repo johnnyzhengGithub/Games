@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✈️ 2.5D 飞机大战 - 视觉增强版</title>
+    <link rel="stylesheet" href="plane-war.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>✈️ 2.5D 飞机大战</h1>
+            <div class="game-info">
+                <div class="info-panel">
+                    <div class="stat-item">
+                        <span class="label">等级:</span>
+                        <div class="level-display">
+                            <span id="level">1</span>
+                            <div class="level-glow"></div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">经验:</span>
+                        <div class="exp-bar-container">
+                            <div class="exp-bar">
+                                <div id="expFill" class="exp-fill">
+                                    <div class="exp-particles"></div>
+                                </div>
+                            </div>
+                            <span class="exp-text"><span id="exp">0</span>/<span id="maxExp">100</span></span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">生命:</span>
+                        <div class="health-bar-container">
+                            <div class="health-bar">
+                                <div id="healthFill" class="health-fill">
+                                    <div class="health-pulse"></div>
+                                </div>
+                            </div>
+                            <span class="health-text"><span id="health">100</span></span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">分数:</span>
+                        <div class="score-display">
+                            <span id="score">0</span>
+                            <div class="score-sparkle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="active-effects">
+                    <div id="activeEffects"></div>
+                </div>
+                
+                <!-- 关卡信息 -->
+                <div class="stage-info">
+                    <div class="stage-current">
+                        <span class="label">关卡:</span>
+                        <span id="currentStage">1</span>/10
+                    </div>
+                    <div class="stage-name">
+                        <span id="stageName">第一关 - 侦察部队</span>
+                    </div>
+                    <div class="stage-progress">
+                        <span class="label">进度:</span>
+                        <span id="stageProgress">0/10</span>
+                    </div>
+                </div>
+                
+                <!-- 武器信息 -->
+                <div class="weapon-info">
+                    <div class="weapon-level">
+                        <span class="label">武器:</span>
+                        <span id="weaponLevel">Lv.1</span>
+                    </div>
+                    <div class="weapon-power">
+                        <span id="weaponDescription">基础激光炮</span>
+                    </div>
+                    <div class="weapon-duration">
+                        <span class="label">持续:</span>
+                        <span id="weaponDuration">0.0s</span>
+                    </div>
+                    <div class="weapon-next">
+                        <span id="weaponNextUpgrade">按住空格键连续射击升级</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- BOSS血条 -->
+        <div id="bossHealthBar" class="boss-health-container hidden">
+            <div class="boss-avatar">
+                <div class="boss-icon">👹</div>
+                <div class="boss-name">终极机甲BOSS</div>
+            </div>
+            <div class="boss-health-bar">
+                <div id="bossHealthFill" class="boss-health-fill">
+                    <div class="boss-health-flow"></div>
+                </div>
+            </div>
+            <div class="boss-phase-indicator">
+                <span id="bossPhase">阶段 1</span>
+            </div>
+        </div>
+        
+        <canvas id="gameCanvas" width="900" height="700"></canvas>
+        
+        <div class="game-controls">
+            <div class="controls-info">
+                <p><strong>操作说明:</strong></p>
+                <p>⬅️➡️⬆️⬇️ 方向键移动 | 空格键 发射子弹 | Z键 使用道具</p>
+            </div>
+            <div class="game-buttons">
+                <button id="startBtn" class="game-btn primary">
+                    <span class="btn-icon">🚀</span>
+                    <span class="btn-text">开始游戏</span>
+                    <div class="btn-glow"></div>
+                </button>
+                <button id="pauseBtn" class="game-btn secondary">
+                    <span class="btn-icon">⏸️</span>
+                    <span class="btn-text">暂停</span>
+                </button>
+                <button id="restartBtn" class="game-btn warning">
+                    <span class="btn-icon">🔄</span>
+                    <span class="btn-text">重新开始</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="upgrades-panel">
+            <h3>🎯 当前升级效果</h3>
+            <ul id="upgradesList">
+                <li class="upgrade-item">
+                    <span class="upgrade-icon">⭐</span>
+                    <span class="upgrade-text">等级 1: 基础火力</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 游戏开始界面 -->
+    <div id="startScreen" class="screen">
+        <div class="screen-content">
+            <h1 class="title-3d">✈️ 2.5D 飞机大战</h1>
+            <h2 class="subtitle-glow">视觉增强版</h2>
+            <div class="game-features">
+                <h3>🎮 创新特色:</h3>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <span class="feature-icon">🌌</span>
+                        <span>多层背景视差滚动效果</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">🛩️</span>
+                        <span>2.5D飞机动态缩放与阴影</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">💥</span>
+                        <span>粒子特效与光影渲染</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">🎯</span>
+                        <span>透视线与深度感优化</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">👾</span>
+                        <span>立体敌机与动态UI</span>
+                    </li>
+                </ul>
+            </div>
+            <button onclick="planeGame.startGame()" class="start-btn-3d">
+                <span class="btn-shine"></span>
+                <span class="btn-text">🚀 启动战机</span>
+            </button>
+        </div>
+        <div class="stars-bg"></div>
+    </div>
+
+    <!-- 游戏结束界面 -->
+    <div id="gameOverScreen" class="screen hidden">
+        <div class="screen-content">
+            <h1 id="gameOverTitle" class="title-3d">任务完成</h1>
+            <div id="gameOverContent" class="game-over-stats">
+                <div class="stat-card">
+                    <span class="stat-label">最终分数</span>
+                    <span id="finalScore" class="stat-value">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">最高等级</span>
+                    <span id="finalLevel" class="stat-value">1</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">击败敌机</span>
+                    <span id="enemiesDefeated" class="stat-value">0</span>
+                </div>
+            </div>
+            <div class="end-buttons">
+                <button onclick="planeGame.restart()" class="end-btn primary">
+                    <span class="btn-icon">🔄</span>
+                    <span class="btn-text">再次挑战</span>
+                </button>
+                <button onclick="location.reload()" class="end-btn secondary">
+                    <span class="btn-icon">🏠</span>
+                    <span class="btn-text">返回主页</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 升级通知 -->
+    <div id="levelUpNotification" class="level-up-notification hidden">
+        <div class="level-up-content">
+            <div class="level-up-icon">⭐</div>
+            <div class="level-up-text">
+                <h3>LEVEL UP!</h3>
+                <p id="levelUpMessage">升级到等级 2</p>
+            </div>
+            <div class="level-up-effects"></div>
+        </div>
+    </div>
+
+    <script src="plane-war.js"></script>
+</body>
+</html> 
