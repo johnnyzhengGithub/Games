@@ -1,3 +1,4 @@
+/* jshint esversion: 6, loopfunc: true */
 ﻿// HTML5 Canvas 赛车游戏 - 主游戏逻辑
 class RacingGame {
     constructor() {
@@ -57,16 +58,16 @@ class RacingGame {
             color: '#4ecdc4',
             
             update() {
-                if (game.keys['ArrowLeft'] && this.x > 0) {
+                if (game.keys.ArrowLeft && this.x > 0) {
                     this.x -= 5;
                 }
-                if (game.keys['ArrowRight'] && this.x < game.canvas.width - this.width) {
+                if (game.keys.ArrowRight && this.x < game.canvas.width - this.width) {
                     this.x += 5;
                 }
-                if (game.keys['ArrowUp'] && this.speed < this.maxSpeed) {
+                if (game.keys.ArrowUp && this.speed < this.maxSpeed) {
                     this.speed += this.acceleration;
                 }
-                if (game.keys['ArrowDown'] && this.speed > -this.maxSpeed/2) {
+                if (game.keys.ArrowDown && this.speed > -this.maxSpeed/2) {
                     this.speed -= this.acceleration;
                 }
                 
