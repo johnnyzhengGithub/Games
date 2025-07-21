@@ -1,3 +1,4 @@
+/* jshint esversion: 6, loopfunc: true */
 // ===== 2.5D飞机大战游戏 =====
 class PlaneWarGame {
     constructor() {
@@ -1668,20 +1669,20 @@ class Player {
 
     update(keys, deltaTime) {
         // 移动控制
-        if (keys['ArrowLeft'] && this.x > this.width / 2) {
+        if (keys.ArrowLeft && this.x > this.width / 2) {
             this.x -= this.speed;
             this.rotation = -0.2; // 左倾
-        } else if (keys['ArrowRight'] && this.x < 900 - this.width / 2) {
+        } else if (keys.ArrowRight && this.x < 900 - this.width / 2) {
             this.x += this.speed;
             this.rotation = 0.2; // 右倾
         } else {
             this.rotation *= 0.9; // 回正
         }
 
-        if (keys['ArrowUp'] && this.y > this.height / 2) {
+        if (keys.ArrowUp && this.y > this.height / 2) {
             this.y -= this.speed;
             this.scale = 0.9; // 缩小模拟高度
-        } else if (keys['ArrowDown'] && this.y < 700 - this.height / 2) {
+        } else if (keys.ArrowDown && this.y < 700 - this.height / 2) {
             this.y += this.speed;
             this.scale = 1.1; // 放大模拟降低
         } else {
